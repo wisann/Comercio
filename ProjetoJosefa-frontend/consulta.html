@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Comércios</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Consultar Comércios</h1>
+        <div class="search-box">
+            <div class="search-option">
+                <label for="nomeComercio">Nome do Comércio:</label>
+                <input type="text" id="nomeComercio" class="input-field">
+                <button id="consultarNomeBtn" class="search-button">Consultar por Nome</button>
+            </div>
+            <div class="search-option">
+                <label for="enderecoComercio">Endereço do Comércio:</label>
+                <input type="text" id="enderecoComercio" class="input-field">
+                <button id="consultarEnderecoBtn" class="search-button">Consultar por Endereço</button>
+            </div>
+        </div>
+        <div class="result-section">
+            <div id="resultNome" class="search-result"></div>
+            <div id="resultEndereco" class="search-result"></div>
+        </div>
+        <a href="index.html" class="back-button">Voltar para a página inicial</a>
+    </div>
+
+    <script>
+        document.getElementById("consultarNomeBtn").addEventListener("click", function() {
+            var nomeComercio = document.getElementById("nomeComercio").value;
+
+            fetch('http://localhost:8080/comercios/search?nome=' + nomeComercio, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                var resultDiv = document.getElementById("resultNome");
+                resultDiv.innerHTML = "";
+                
+                if (data.length === 0) {
+                    resultDiv.innerHTML = "<p class='error-message'>Nenhum comércio corresponde à consulta por Nome.</p>";
+                } else {
+                    resultDiv.innerHTML = "<h2>Resultados da Consulta por Nome:</h2><ul>";
+                    data.forEach(function(comercio) {
+                        resultDiv.innerHTML += `<li><strong>Nome:</strong> ${comercio.nome}, <strong>Categoria:</strong> ${comercio.categoria}, <strong>Endereço:</strong> ${comercio.endereco}</li>`;
+                    });
+                    resultDiv.innerHTML += "</ul>";
+                }
+            })
+            .catch(error => {
+                console.error('Erro na consulta por Nome: ' + error);
+            });
+        });
+
+        document.getElementById("consultarEnderecoBtn").addEventListener("click", function() {
+            var enderecoComercio = document.getElementById("enderecoComercio").value;
+
+            fetch('http://localhost:8080/comercios/search?endereco=' + enderecoComercio, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                var resultDiv = document.getElementById("resultEndereco");
+                resultDiv.innerHTML = "";
+                
+                if (data.length === 0) {
+                    resultDiv.innerHTML = "<p class='error-message'>Nenhum comércio corresponde à consulta por Endereço.</p>";
+                } else {
+                    resultDiv.innerHTML = "<h2>Resultados da Consulta por Endereço:</h2><ul>";
+                    data.forEach(function(comercio) {
+                        resultDiv.innerHTML += `<li><strong>Nome:</strong> ${comercio.nome}, <strong>Categoria:</strong> ${comercio.categoria}, <strong>Endereço:</strong> ${comercio.endereco}</li>`;
+                    });
+                    resultDiv.innerHTML += "</ul>";
+                }
+            })
+            .catch(error => {
+                console.error('Erro na consulta por Endereço: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>
+</body>
+</html>

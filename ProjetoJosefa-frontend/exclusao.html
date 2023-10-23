@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Comércio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #FF3333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #CC0000;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Excluir Comércio</h1>
+        <form id="exclusaoForm">
+            <label for="comercio">Selecione o Comércio:</label>
+            <select id="comercio" name="comercio" required>
+                <!-- Preencha com as opções de comércios cadastrados -->
+                <option value="comercio1">Comércio 1</option>
+                <option value="comercio2">Comércio 2</option>
+                <option value="comercio3">Comércio 3</option>
+            </select>
+
+            <button type="submit">Excluir</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById("exclusaoForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Obtenha o comércio selecionado para exclusão
+            var comercioSelecionado = document.getElementById("comercio").value;
+
+            // Simule a exclusão do comércio (pode ser substituído por uma solicitação AJAX real)
+            // Neste exemplo, apenas exibimos uma mensagem de sucesso.
+            var resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `
+                <p>Comércio "${comercioSelecionado}" foi excluído com sucesso.</p>
+            `;
+        });
+    </script>
+</body>
+</html>
