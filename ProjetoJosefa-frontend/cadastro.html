@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Comércio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #e1e1e1;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Comércio</h1>
+        <form id="cadastroForm">
+            <label for="nome">Nome do Comércio:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="categoria">Categoria:</label>
+            <select id="categoria" name="categorias" required>
+                <option value="Restaurante">Restaurante</option>
+                <option value="Loja">Loja</option>
+                <option value="Sorveteria">Sorveteria</option>
+                <option value="Açaíteria">Açaíteria</option>
+                <option value="Padaria">Padaria</option>
+                <option value="Mercado">Mercado</option>
+                <option value="FastFood">Fast Food</option>
+                <option value="Outros">Outros</option>
+            </select>
+            
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco" name="endereco" required>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <div id="result"></div>
+        <a href="index.html" class="back-button">Voltar para a página inicial</a>
+    </div>
+
+    <script>
+        document.getElementById("cadastroForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var nome = document.getElementById("nome").value;
+            var categoria = document.getElementById("categoria").value;
+            var endereco = document.getElementById("endereco").value;
+
+            var novoComercio = {
+                nome: nome,
+                categoria: categoria,
+                endereco: endereco
+            };
+
+            fetch('http://localhost:8080/comercios', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(novoComercio)
+            })
+            .then(response => response.json())
+            .then(data => {
+                var resultDiv = document.getElementById("result");
+                resultDiv.innerHTML = `
+                    <p>Comércio cadastrado com sucesso:</p>
+                    <p>Nome: ${data.nome}</p>
+                    <p>Categoria: ${data.categoria}</p>
+                    <p>Endereço: ${data.endereco}</p>
+                `;
+            })
+            .catch(error => {
+                console.error('Erro ao cadastrar comércio: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>
